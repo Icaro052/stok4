@@ -3,9 +3,19 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebas
 import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
 import { getFirestore, doc, getDoc, addDoc, setDoc, updateDoc, deleteDoc, onSnapshot, collection, query, where, getDocs, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
+// Configuração do Firebase fornecida pelo usuário
+const firebaseConfig = {
+  apiKey: "AIzaSyC84X1K2pJoCLdqgJkE6evwMIiCq-HHufY",
+  authDomain: "sdfs2-501da.firebaseapp.com",
+  projectId: "sdfs2-501da",
+  storageBucket: "sdfs2-501da.appspot.com",
+  messagingSenderId: "1030931317551",
+  appId: "1:1030931317551:web:47bb76ea1e51f2cf11d7da",
+  measurementId: "G-DYSJP9KPH1"
+};
+
 // Variáveis globais do Firebase (fornecidas pelo ambiente Canvas)
 const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
-const firebaseConfig = JSON.parse(typeof __firebase_config !== 'undefined' ? __firebase_config : '{}');
 const initialAuthToken = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : null;
 
 // Inicializa o Firebase
