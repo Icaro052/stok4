@@ -7,6 +7,16 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body class="bg-gradient-to-br from-blue-50 to-indigo-100 min-h-screen flex flex-col">
+    <!-- Tela de Login -->
+    <div id="login-container" class="fixed inset-0 flex items-center justify-center bg-white bg-opacity-90 z-50">
+        <form id="login-form" class="bg-white p-8 rounded-xl shadow-xl w-full max-w-sm flex flex-col gap-4">
+            <h2 class="text-2xl font-bold text-center mb-2">Acessar o Sistema</h2>
+            <input type="email" id="login-email" class="input-field" placeholder="E-mail" required autocomplete="username">
+            <input type="password" id="login-password" class="input-field" placeholder="Senha" required autocomplete="current-password">
+            <button type="submit" class="btn-primary w-full">Entrar</button>
+            <p id="login-error" class="text-alert-red text-center text-sm hidden"></p>
+        </form>
+    </div>
     <!-- Cabeçalho Fixo -->
     <header class="fixed top-0 left-0 right-0 z-50 bg-white shadow-custom-light p-4 flex justify-between items-center lg:h-20">
         <div class="flex items-center space-x-3">
@@ -45,6 +55,36 @@
             </div>
         </div>
     </footer>
+    <script type="module">
+    import { getAuth, signInWithEmailAndPassword, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+    // Firebase config já está no script.js, mas garantimos aqui para login
+    const firebaseConfig = window.__firebase_config || {};
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const loginContainer = document.getElementById('login-container');
+    const loginForm = document.getElementById('login-form');
+    const loginError = document.getElementById('login-error');
+    onAuthStateChanged(auth, (user) => {
+        if (user) {
+            loginContainer.style.display = 'none';
+        } else {
+            loginContainer.style.display = 'flex';
+        }
+    });
+    loginForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        loginError.classList.add('hidden');
+        const email = document.getElementById('login-email').value.trim();
+        const password = document.getElementById('login-password').value;
+        try {
+            await signInWithEmailAndPassword(auth, email, password);
+        } catch (err) {
+            loginError.textContent = 'E-mail ou senha inválidos.';
+            loginError.classList.remove('hidden');
+        }
+    });
+    </script>
     <script type="module" src="script.js"></script>
 </body>
 </html>
