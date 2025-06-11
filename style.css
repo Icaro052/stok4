@@ -367,3 +367,48 @@ textarea.input-field {
 }
 .dashboard-metric-card.green p { color: #10B981; } /* accent-green */
 .dashboard-metric-card.red p { color: #EF4444; } /* alert-red */
+
+/* --- Hero Section --- */
+section {
+    padding-top: 7rem;
+    padding-bottom: 4rem;
+}
+
+/* --- Funcionalidades --- */
+#funcionalidades .grid {
+    gap: 2rem;
+}
+#funcionalidades .bg-white {
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+#funcionalidades .bg-white:hover {
+    transform: translateY(-6px) scale(1.03);
+    box-shadow: 0 10px 30px rgba(37,99,235,0.08);
+}
+
+/* --- Rodapé --- */
+footer {
+    background: #fff;
+    border-top: 1px solid #E5E7EB;
+    color: #6B7280;
+    font-size: 1rem;
+    margin-top: auto;
+}
+footer a {
+    color: #6B7280;
+    text-decoration: none;
+    transition: color 0.2s;
+}
+footer a:hover {
+    color: #2563EB;
+}
+
+@media (max-width: 768px) {
+    section {
+        padding-top: 4rem;
+        padding-bottom: 2rem;
+    }
+    .logo {
+        font-size: 1.25rem;
+    }
+}

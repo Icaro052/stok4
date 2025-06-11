@@ -56,35 +56,54 @@
         </button>
     </header>
 
-    <!-- Contêiner Principal da Aplicação -->
-    <div id="app-container" class="flex flex-1 pt-16 lg:pt-20">
-        <!-- Barra Lateral de Navegação (Sidebar) -->
-        <nav id="sidebar" class="fixed top-16 lg:top-20 bottom-0 left-0 w-64 bg-white shadow-custom-medium p-6 flex flex-col gap-3 z-40 transform -translate-x-full lg:translate-x-0 transition-transform duration-300 ease-in-out lg:rounded-r-2xl">
-            <button id="nav-dashboard" class="nav-btn active">
-                <svg class="icon" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M10 2a6 6 0 00-6 6v3.586l-.707.707A1 1 0 012.586 13H14a1 1 0 01.707.293l.707-.707V8a6 6 0 00-6-6zM10 18a3 3 0 110-6 3 3 0 010 6z"></path></svg>
-                Dashboard
-            </button>
-            <button id="nav-products" class="nav-btn">
-                <svg class="icon" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M5 3a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2V5a2 2 0 00-2-2H5zM5 11a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2v-2a2 2 0 00-2-2H5zM13 7a2 2 0 00-2-2h2a2 2 0 002 2V5a2 2 0 00-2-2h-2zM13 15a2 2 0 00-2-2h2a2 2 0 002 2v-2a2 2 0 00-2-2h-2z"></path></svg>
-                Produtos
-            </button>
-            <button id="nav-employees" class="nav-btn">
-                <svg class="icon" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"></path></svg>
-                Funcionários
-            </button>
-            <button id="nav-ai" class="nav-btn">
-                <svg class="icon" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M18.653 10.165A2.327 2.327 0 0017.332 9.2c-.65-.12-1.29-.46-1.84-1.01l-.81-1.01a1 1 0 00-1.54-.15l-.81-.81a1 1 0 00-1.15-1.54l-1.01-.81c-.55-.55-1.2-.89-1.84-1.01A2.327 2.327 0 0010 1.347v.01a1 1 0 00-1.01-.81L7.17 1a1 1 0 00-1.54 1.15l-.81 1.01c-.55.55-.89 1.2-1.01 1.84A2.327 2.327 0 001.347 10h.01a1 1 0 00-1.54 1.15l.81 1.01c.55.55.89 1.2 1.01 1.84A2.327 2.327 0 0010 18.653v-.01a1 1 0 001.01 1.54l1.01-.81c.55-.55.89-1.2 1.01-1.84A2.327 2.327 0 0018.653 10zm-8.48-1.564a1 1 0 00-.707-.707c-.4-.4-1.02-.4-1.42 0s-.4 1.02 0 1.42a1 1 0 00.707.707c-.4.4-1.02.4-1.42 0s-.4-1.02 0-1.42z" clip-rule="evenodd"></path></svg>
-                Assistente IA
-            </button>
-        </nav>
-        <div id="sidebar-overlay" class="fixed inset-0 bg-black bg-opacity-50 z-30 hidden lg:hidden"></div>
+    <!-- Hero Section -->
+    <section class="pt-28 pb-16 bg-gradient-to-br from-primary-blue to-primary-blue-dark text-white text-center shadow-custom-medium">
+        <div class="max-w-3xl mx-auto px-4">
+            <h1 class="text-4xl md:text-5xl font-extrabold mb-4">Gestão Inteligente de Estoque com IA</h1>
+            <p class="text-lg md:text-xl mb-8">Controle, analise e otimize seu inventário com tecnologia de ponta, automação e inteligência artificial.</p>
+            <a href="#funcionalidades" class="inline-block bg-accent-green hover:bg-green-600 text-white font-semibold px-8 py-3 rounded-full shadow-lg transition">Conheça as Funcionalidades</a>
+        </div>
+    </section>
 
+    <!-- Funcionalidades/Serviços -->
+    <section id="funcionalidades" class="py-16 bg-bg-light">
+        <div class="max-w-5xl mx-auto px-4">
+            <h2 class="text-3xl font-bold text-primary-blue mb-8 text-center">Funcionalidades</h2>
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="bg-white rounded-xl shadow-custom-light p-6 flex flex-col items-center">
+                    <svg class="w-12 h-12 text-primary-blue mb-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V7"/><path d="M16 3v4H8V3"/></svg>
+                    <h3 class="font-semibold text-lg mb-2">Controle de Estoque</h3>
+                    <p class="text-text-light">Gerencie entradas, saídas e níveis de produtos em tempo real.</p>
+                </div>
+                <div class="bg-white rounded-xl shadow-custom-light p-6 flex flex-col items-center">
+                    <svg class="w-12 h-12 text-primary-blue mb-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 8v4l3 3"/><circle cx="12" cy="12" r="10"/></svg>
+                    <h3 class="font-semibold text-lg mb-2">Relatórios Inteligentes</h3>
+                    <p class="text-text-light">Visualize gráficos, relatórios e insights automáticos com IA.</p>
+                </div>
+                <div class="bg-white rounded-xl shadow-custom-light p-6 flex flex-col items-center">
+                    <svg class="w-12 h-12 text-primary-blue mb-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H7a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>
+                    <h3 class="font-semibold text-lg mb-2">Gestão de Equipe</h3>
+                    <p class="text-text-light">Controle permissões, cadastre funcionários e acompanhe desempenho.</p>
+                </div>
+            </div>
+        </div>
+    </section>
 
-        <!-- Área de Conteúdo Principal (carregada dinamicamente pelo JS) -->
-        <main id="main-content" class="flex-1 lg:ml-64 p-4 lg:p-8">
-            <!-- Conteúdo será injetado aqui pelo JavaScript -->
-        </main>
-    </div>
+    <!-- Rodapé -->
+    <footer class="bg-white border-t border-secondary-gray py-8 mt-auto text-center text-text-light">
+        <div class="max-w-5xl mx-auto px-4 flex flex-col md:flex-row justify-between items-center">
+            <div class="mb-4 md:mb-0">&copy; 2025 Inventário Inteligente. Todos os direitos reservados.</div>
+            <div class="space-x-4">
+                <a href="#" class="hover:text-primary-blue">Política de Privacidade</a>
+                <a href="#" class="hover:text-primary-blue">Contato</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Conteúdo principal da aplicação (mantido) -->
+    <main id="app-container" class="flex-1 pt-8">
+        <div id="main-content"></div>
+    </main>
 
     <!-- Modais (Mantidos no index.html para fácil acesso global) -->
 
