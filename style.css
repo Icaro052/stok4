@@ -91,16 +91,16 @@ header {
 
 /* --- Botões de Navegação da Sidebar --- */
 .nav-btn {
-    @apply flex items-center w-full py-3 px-4 rounded-xl text-left font-medium text-text-light transition-all duration-300 ease-in-out;
+    /* substitua @apply por classes Tailwind no HTML */
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.03);
 }
 .nav-btn:hover {
-    @apply bg-blue-50 text-primary-blue;
+    /* substitua @apply por classes Tailwind no HTML */
     transform: translateY(-2px);
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
 }
 .nav-btn.active {
-    @apply bg-primary-blue text-white;
+    /* substitua @apply por classes Tailwind no HTML */
     box-shadow: 0 5px 15px rgba(37, 99, 235, 0.25);
     transform: translateY(-1px);
 }
@@ -137,30 +137,21 @@ header {
     box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15); /* Sombra customizada */
 }
 .section-title {
-    @apply text-4xl font-extrabold text-text-dark mb-8 flex items-center;
+    /* substitua @apply por classes Tailwind no HTML */
 }
 
 /* --- Estilo dos Botões --- */
 .btn-base {
-    @apply font-semibold py-3 px-6 rounded-xl transition-all duration-300 ease-in-out focus:outline-none focus:ring-4 focus:ring-offset-2;
+    /* substitua @apply por classes Tailwind no HTML */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
 }
-.btn-primary {
-    @apply btn-base bg-primary-blue text-white hover:bg-primary-blue-dark focus:ring-primary-blue/50;
-}
-.btn-secondary {
-    @apply btn-base bg-secondary-gray text-text-light hover:bg-gray-300 focus:ring-secondary-gray/50;
-}
-.btn-accent {
-     @apply btn-base bg-accent-green text-white hover:bg-green-600 focus:ring-accent-green/50;
-}
-.btn-danger {
-    @apply btn-base bg-alert-red text-white hover:bg-red-600 focus:ring-alert-red/50;
+.btn-primary, .btn-secondary, .btn-accent, .btn-danger {
+    /* substitua @apply por classes Tailwind no HTML */
 }
 
 /* --- Campos de Entrada --- */
 .input-field {
-    @apply mt-1 block w-full px-5 py-3 border border-gray-300 rounded-lg shadow-sm text-text-dark placeholder-text-light focus:outline-none focus:ring-primary-blue focus:border-primary-blue transition-all duration-200 ease-in-out;
+    /* substitua @apply por classes Tailwind no HTML */
 }
 textarea.input-field {
     resize: vertical;
@@ -169,11 +160,11 @@ textarea.input-field {
 
 /* --- Estilo da Tabela --- */
 .table-header th {
-    @apply px-6 py-4 text-left text-xs font-bold text-text-light uppercase tracking-wider bg-gray-50;
+    /* substitua @apply por classes Tailwind no HTML */
     border-bottom: 2px solid #E5E7EB;
 }
 .table-row td {
-    @apply px-6 py-4 whitespace-nowrap text-sm text-text-dark border-b border-gray-100;
+    /* substitua @apply por classes Tailwind no HTML */
 }
 .table-row:nth-child(even) {
     background-color: #F9FAFB;
@@ -183,10 +174,10 @@ textarea.input-field {
     transition: background-color 0.2s ease-in-out;
 }
 .status-low-stock {
-    @apply font-bold text-alert-red;
+    /* substitua @apply por classes Tailwind no HTML */
 }
 .status-good-stock {
-    @apply font-semibold text-accent-green;
+    /* substitua @apply por classes Tailwind no HTML */
 }
 
 /* --- Estilo dos Modais --- */
