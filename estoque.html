@@ -6,32 +6,57 @@
     <title>Estoque | Inventário Inteligente</title>
     <link rel="stylesheet" href="style.css">
 </head>
-<body>
-    <!-- Cabeçalho -->
-    <header class="header">
-        <div class="logo">Inventário Inteligente</div>
-        <nav>
-            <a href="dashboard.html">Dashboard</a>
-            <a href="estoque.html">Estoque</a>
-            <a href="equipe.html">Equipe</a>
-            <a href="assistente.html">Assistente IA</a>
-        </nav>
+<body class="bg-gradient-to-br from-blue-50 to-indigo-100 min-h-screen flex flex-col">
+    <!-- Cabeçalho Fixo -->
+    <header class="fixed top-0 left-0 right-0 z-50 bg-white shadow-custom-light p-4 flex justify-between items-center lg:h-20">
+        <div class="flex items-center space-x-3">
+            <svg class="w-8 h-8 text-primary-blue" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path d="M5 3a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2V5a2 2 0 00-2-2H5zM5 11a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2v-2a2 2 0 00-2-2H5zM13 7a2 2 0 00-2-2h2a2 2 0 002 2V5a2 2 0 00-2-2h-2zM13 15a2 2 0 00-2-2h2a2 2 0 002 2v-2a2 2 0 00-2-2h-2zM19 3a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2V5a2 2 0 00-2-2h-2zM19 11a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2v-2a2 2 0 00-2-2h-2z"></path>
+            </svg>
+            <div class="logo">Inventário Inteligente</div>
+        </div>
+        <p id="user-id-display" class="user-id-display hidden lg:block"></p>
+        <button id="mobile-menu-button" class="lg:hidden p-2 rounded-md text-text-light hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-blue">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+        </button>
     </header>
-    <main>
-        <h1>Controle de Estoque</h1>
-        <section>
-            <table>
-                <thead>
-                    <tr><th>Produto</th><th>Quantidade</th><th>Preço</th></tr>
-                </thead>
-                <tbody>
-                    <tr><td>Produto Exemplo</td><td>10</td><td>R$ 100,00</td></tr>
-                </tbody>
-            </table>
-        </section>
+    <nav id="sidebar" class="hidden-mobile lg:block fixed top-20 left-0 h-full w-64 bg-white shadow-custom-medium z-40 p-6 border-r border-gray-100 transition-transform">
+        <ul class="space-y-2">
+            <li><button id="nav-dashboard" class="nav-btn w-full flex items-center space-x-2"><span class="icon"><svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8v-10h-8v10zm0-18v6h8V3h-8z"/></svg></span><span>Dashboard</span></button></li>
+            <li><button id="nav-products" class="nav-btn w-full flex items-center space-x-2"><span class="icon"><svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20 13V7a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v6M9 21h6"/></svg></span><span>Estoque</span></button></li>
+            <li><button id="nav-employees" class="nav-btn w-full flex items-center space-x-2"><span class="icon"><svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H7a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></span><span>Equipe</span></button></li>
+            <li><button id="nav-ai" class="nav-btn w-full flex items-center space-x-2"><span class="icon"><svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg></span><span>Assistente IA</span></button></li>
+        </ul>
+    </nav>
+    <div id="sidebar-overlay" class="hidden fixed inset-0 bg-black bg-opacity-30 z-30 lg:hidden"></div>
+    <main id="app-container" class="flex-1 pt-8">
+        <div id="main-content">
+            <h1>Controle de Estoque</h1>
+            <section>
+                <table>
+                    <thead>
+                        <tr><th>Produto</th><th>Quantidade</th><th>Preço</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>Produto Exemplo</td><td>10</td><td>R$ 100,00</td></tr>
+                    </tbody>
+                </table>
+            </section>
+        </div>
     </main>
-    <footer>
-        &copy; 2025 Inventário Inteligente. Todos os direitos reservados.
+    <!-- Modais globais -->
+    <div id="product-modal" class="modal"> <!-- ...modal code igual ao index.html... --> </div>
+    <div id="employee-modal" class="modal"> <!-- ...modal code igual ao index.html... --> </div>
+    <div id="message-modal" class="modal"> <!-- ...modal code igual ao index.html... --> </div>
+    <footer class="bg-white border-t border-secondary-gray py-8 mt-auto text-center text-text-light">
+        <div class="max-w-5xl mx-auto px-4 flex flex-col md:flex-row justify-between items-center">
+            <div class="mb-4 md:mb-0">&copy; 2025 Inventário Inteligente. Todos os direitos reservados.</div>
+            <div class="space-x-4">
+                <a href="#" class="hover:text-primary-blue">Política de Privacidade</a>
+                <a href="#" class="hover:text-primary-blue">Contato</a>
+            </div>
+        </div>
     </footer>
+    <script type="module" src="script.js"></script>
 </body>
 </html>
