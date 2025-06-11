@@ -50,6 +50,16 @@ const dashboardElements = {}; // Para elementos do dashboard renderizados dinami
 
 
 // --- Funções de Autenticação e Inicialização ---
+function getInitialPageFromLocation() {
+    const path = window.location.pathname;
+    if (path.endsWith('dashboard.html') || path.endsWith('index.html')) return 'dashboard';
+    if (path.endsWith('estoque.html')) return 'products';
+    if (path.endsWith('equipe.html')) return 'employees';
+    if (path.endsWith('assistente.html')) return 'ai';
+    // fallback
+    return 'dashboard';
+}
+
 onAuthStateChanged(auth, async (user) => {
     if (user) {
         userId = user.uid;
@@ -79,7 +89,9 @@ onAuthStateChanged(auth, async (user) => {
             userIdDisplay.classList.remove('hidden');
         }
         setupRealtimeListeners();
-        loadPage('dashboard'); // Carrega o dashboard como página inicial
+        // Detecta a página correta para carregar
+        const initialPage = getInitialPageFromLocation();
+        loadPage(initialPage);
     }
 });
 
@@ -1141,8 +1153,13 @@ async function sendAiQuery() {
     }
 }
 
-// Garante que os listeners sejam configurados após a autenticação
-window.onload = function() {
-    // A função onAuthStateChanged já cuida da chamada de setupRealtimeListeners e loadPage('dashboard')
-};
+// Detecta página e carrega conteúdo correto ao abrir diretamente
+window.addEventListener('DOMContentLoaded', () => {
+    if (isAuthReady && userId) {
+        const initialPage = getInitialPageFromLocation();
+        loadPage(initialPage);
+    }
+});
+
+// --- Código existente continua aqui ---
 
