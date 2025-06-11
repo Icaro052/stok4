@@ -21,6 +21,11 @@ const getProductsCollectionRef = (uid) => collection(db, `artifacts/${appId}/use
 const getEmployeesCollectionRef = (uid) => collection(db, `artifacts/${appId}/users/${uid}/employees`);
 const getSalesCollectionRef = (uid) => collection(db, `artifacts/${appId}/users/${uid}/sales`);
 
+// Coleções do Firestore para ERP
+const getCustomersCollectionRef = (uid) => collection(db, `artifacts/${appId}/users/${uid}/customers`);
+const getSuppliersCollectionRef = (uid) => collection(db, `artifacts/${appId}/users/${uid}/suppliers`);
+const getFinanceCollectionRef = (uid) => collection(db, `artifacts/${appId}/users/${uid}/finance`);
+
 // Elementos DOM principais
 const mainContent = document.getElementById('main-content');
 const productsTableBody = document.getElementById('products-table-body');
@@ -156,6 +161,12 @@ function loadPage(pageName) {
         renderEmployeesPage();
     } else if (pageName === 'ai') {
         renderAIAssistantPage();
+    } else if (pageName === 'customers') {
+        renderCustomersPage();
+    } else if (pageName === 'suppliers') {
+        renderSuppliersPage();
+    } else if (pageName === 'finance') {
+        renderFinancePage();
     }
     // As funções de display de dados e listeners específicos são chamadas dentro das funções de renderização de página
 }
@@ -165,6 +176,17 @@ navButtons.dashboard.addEventListener('click', () => loadPage('dashboard'));
 navButtons.products.addEventListener('click', () => loadPage('products'));
 navButtons.employees.addEventListener('click', () => loadPage('employees'));
 navButtons.ai.addEventListener('click', () => loadPage('ai'));
+
+// Adiciona listeners aos botões de navegação ERP
+if (document.getElementById('nav-customers')) {
+    document.getElementById('nav-customers').addEventListener('click', () => loadPage('customers'));
+}
+if (document.getElementById('nav-suppliers')) {
+    document.getElementById('nav-suppliers').addEventListener('click', () => loadPage('suppliers'));
+}
+if (document.getElementById('nav-finance')) {
+    document.getElementById('nav-finance').addEventListener('click', () => loadPage('finance'));
+}
 
 // --- Responsividade da Sidebar Mobile ---
 mobileMenuButton.addEventListener('click', () => {
@@ -198,6 +220,24 @@ function openModal(modalId, title = '', content = '') {
         if (title.includes('Adicionar')) {
             document.getElementById('employee-form').reset();
             document.getElementById('employee-id').value = '';
+        }
+    } else if (modalId === 'customer-modal') {
+        document.getElementById('customer-modal-title').textContent = title;
+        if (title.includes('Adicionar')) {
+            document.getElementById('customer-form').reset();
+            document.getElementById('customer-id').value = '';
+        }
+    } else if (modalId === 'supplier-modal') {
+        document.getElementById('supplier-modal-title').textContent = title;
+        if (title.includes('Adicionar')) {
+            document.getElementById('supplier-form').reset();
+            document.getElementById('supplier-id').value = '';
+        }
+    } else if (modalId === 'finance-modal') {
+        document.getElementById('finance-modal-title').textContent = title;
+        if (title.includes('Novo Lançamento')) {
+            document.getElementById('finance-form').reset();
+            document.getElementById('finance-id').value = '';
         }
     } else if (modalId === 'message-modal') {
         document.getElementById('message-modal-title').textContent = title;
@@ -242,7 +282,7 @@ function closeModal(modalId) {
 
 // Fecha modais ao clicar fora
 window.addEventListener('click', (event) => {
-    const modals = ['product-modal', 'employee-modal', 'message-modal'];
+    const modals = ['product-modal', 'employee-modal', 'customer-modal', 'supplier-modal', 'finance-modal', 'message-modal'];
     modals.forEach(modalId => {
         const modal = document.getElementById(modalId);
         // Garante que o clique foi no overlay do modal e não dentro do conteúdo
@@ -450,6 +490,199 @@ function renderAIAssistantPage() {
     chatHistory.forEach(msg => addChatMessage(msg.parts[0].text, msg.role));
 }
 
+// Renderiza a página de Clientes
+function renderCustomersPage() {
+    mainContent.innerHTML = `
+        <div id="section-customers" class="card">
+            <h2 class="section-title">Clientes</h2>
+            <button id="add-customer-btn" class="btn-primary mb-6 flex items-center">Adicionar Cliente</button>
+            <div class="overflow-x-auto shadow-md rounded-xl border border-gray-100">
+                <table class="min-w-full divide-y divide-gray-200">
+                    <thead class="bg-gray-50">
+                        <tr class="table-header">
+                            <th>Nome</th>
+                            <th>Contato</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody id="customers-table-body" class="bg-white divide-y divide-gray-100">
+                        <!-- As linhas de clientes serão inseridas dinamicamente aqui -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    `;
+    document.getElementById('add-customer-btn').addEventListener('click', () => openModal('customer-modal', 'Adicionar Cliente'));
+    document.getElementById('customer-form').addEventListener('submit', handleCustomerFormSubmit);
+    if (userId) {
+        getDocs(getCustomersCollectionRef(userId)).then(snapshot => {
+            const customers = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+            displayCustomers(customers);
+        });
+    }
+}
+
+// Renderiza a página de Fornecedores
+function renderSuppliersPage() {
+    mainContent.innerHTML = `
+        <div id="section-suppliers" class="card">
+            <h2 class="section-title">Fornecedores</h2>
+            <button id="add-supplier-btn" class="btn-primary mb-6 flex items-center">Adicionar Fornecedor</button>
+            <div class="overflow-x-auto shadow-md rounded-xl border border-gray-100">
+                <table class="min-w-full divide-y divide-gray-200">
+                    <thead class="bg-gray-50">
+                        <tr class="table-header">
+                            <th>Nome</th>
+                            <th>Contato</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody id="suppliers-table-body" class="bg-white divide-y divide-gray-100">
+                        <!-- As linhas de fornecedores serão inseridas dinamicamente aqui -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    `;
+    document.getElementById('add-supplier-btn').addEventListener('click', () => openModal('supplier-modal', 'Adicionar Fornecedor'));
+    document.getElementById('supplier-form').addEventListener('submit', handleSupplierFormSubmit);
+    if (userId) {
+        getDocs(getSuppliersCollectionRef(userId)).then(snapshot => {
+            const suppliers = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+            displaySuppliers(suppliers);
+        });
+    }
+}
+
+// Renderiza a página Financeira
+function renderFinancePage() {
+    mainContent.innerHTML = `
+        <div id="section-finance" class="card">
+            <h2 class="section-title">Financeiro</h2>
+            <button id="add-finance-btn" class="btn-primary mb-6 flex items-center">Novo Lançamento</button>
+            <div class="overflow-x-auto shadow-md rounded-xl border border-gray-100">
+                <table class="min-w-full divide-y divide-gray-200">
+                    <thead class="bg-gray-50">
+                        <tr class="table-header">
+                            <th>Tipo</th>
+                            <th>Descrição</th>
+                            <th>Valor</th>
+                            <th>Data</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody id="finance-table-body" class="bg-white divide-y divide-gray-100">
+                        <!-- As linhas financeiras serão inseridas dinamicamente aqui -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    `;
+    document.getElementById('add-finance-btn').addEventListener('click', () => openModal('finance-modal', 'Lançamento Financeiro'));
+    document.getElementById('finance-form').addEventListener('submit', handleFinanceFormSubmit);
+    if (userId) {
+        getDocs(getFinanceCollectionRef(userId)).then(snapshot => {
+            const finances = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+            displayFinance(finances);
+        });
+    }
+}
+
+// --- Funções CRUD e display para clientes, fornecedores e financeiro ---
+function handleCustomerFormSubmit(e) {
+    e.preventDefault();
+    if (!userId) return;
+    const id = document.getElementById('customer-id').value;
+    const name = document.getElementById('customer-name').value.trim();
+    const contact = document.getElementById('customer-contact').value.trim();
+    const data = { name, contact, updatedAt: serverTimestamp() };
+    const btn = e.target.querySelector('button[type="submit"]');
+    btn.disabled = true; btn.textContent = 'Salvando...';
+    (id ? setDoc(doc(getCustomersCollectionRef(userId), id), data, { merge: true }) : addDoc(getCustomersCollectionRef(userId), data))
+        .then(() => { closeModal('customer-modal'); loadPage('customers'); })
+        .finally(() => { btn.disabled = false; btn.textContent = 'Salvar'; });
+}
+
+function displayCustomers(customers) {
+    const tbody = document.getElementById('customers-table-body');
+    tbody.innerHTML = customers.length === 0 ? '<tr><td colspan="3" class="text-center text-text-light py-8">Nenhum cliente cadastrado.</td></tr>' : '';
+    customers.forEach(c => {
+        const row = tbody.insertRow();
+        row.innerHTML = `<td>${c.name}</td><td>${c.contact || '-'}</td><td><button class="text-primary-blue" onclick="editCustomer('${c.id}')">Editar</button></td>`;
+    });
+}
+
+window.editCustomer = async (id) => {
+    if (!userId) return;
+    const docSnap = await getDoc(doc(getCustomersCollectionRef(userId), id));
+    if (docSnap.exists()) {
+        const d = docSnap.data();
+        document.getElementById('customer-id').value = id;
+        document.getElementById('customer-name').value = d.name;
+        document.getElementById('customer-contact').value = d.contact;
+        openModal('customer-modal', 'Editar Cliente');
+    }
+};
+
+function handleSupplierFormSubmit(e) {
+    e.preventDefault();
+    if (!userId) return;
+    const id = document.getElementById('supplier-id').value;
+    const name = document.getElementById('supplier-name').value.trim();
+    const contact = document.getElementById('supplier-contact').value.trim();
+    const data = { name, contact, updatedAt: serverTimestamp() };
+    const btn = e.target.querySelector('button[type="submit"]');
+    btn.disabled = true; btn.textContent = 'Salvando...';
+    (id ? setDoc(doc(getSuppliersCollectionRef(userId), id), data, { merge: true }) : addDoc(getSuppliersCollectionRef(userId), data))
+        .then(() => { closeModal('supplier-modal'); loadPage('suppliers'); })
+        .finally(() => { btn.disabled = false; btn.textContent = 'Salvar'; });
+}
+
+function displaySuppliers(suppliers) {
+    const tbody = document.getElementById('suppliers-table-body');
+    tbody.innerHTML = suppliers.length === 0 ? '<tr><td colspan="3" class="text-center text-text-light py-8">Nenhum fornecedor cadastrado.</td></tr>' : '';
+    suppliers.forEach(s => {
+        const row = tbody.insertRow();
+        row.innerHTML = `<td>${s.name}</td><td>${s.contact || '-'}</td><td><button class="text-primary-blue" onclick="editSupplier('${s.id}')">Editar</button></td>`;
+    });
+}
+
+window.editSupplier = async (id) => {
+    if (!userId) return;
+    const docSnap = await getDoc(doc(getSuppliersCollectionRef(userId), id));
+    if (docSnap.exists()) {
+        const d = docSnap.data();
+        document.getElementById('supplier-id').value = id;
+        document.getElementById('supplier-name').value = d.name;
+        document.getElementById('supplier-contact').value = d.contact;
+        openModal('supplier-modal', 'Editar Fornecedor');
+    }
+};
+
+function handleFinanceFormSubmit(e) {
+    e.preventDefault();
+    if (!userId) return;
+    const id = document.getElementById('finance-id').value;
+    const type = document.getElementById('finance-type').value;
+    const desc = document.getElementById('finance-desc').value.trim();
+    const value = parseFloat(document.getElementById('finance-value').value);
+    const date = document.getElementById('finance-date').value;
+    const data = { type, desc, value, date, updatedAt: serverTimestamp() };
+    const btn = e.target.querySelector('button[type="submit"]');
+    btn.disabled = true; btn.textContent = 'Salvando...';
+    (id ? setDoc(doc(getFinanceCollectionRef(userId), id), data, { merge: true }) : addDoc(getFinanceCollectionRef(userId), data))
+        .then(() => { closeModal('finance-modal'); loadPage('finance'); })
+        .finally(() => { btn.disabled = false; btn.textContent = 'Salvar'; });
+}
+
+function displayFinance(finances) {
+    const tbody = document.getElementById('finance-table-body');
+    tbody.innerHTML = finances.length === 0 ? '<tr><td colspan="5" class="text-center text-text-light py-8">Nenhum lançamento financeiro.</td></tr>' : '';
+    finances.forEach(f => {
+        const row = tbody.insertRow();
+        row.innerHTML = `<td>${f.type === 'receber' ? 'A Receber' : 'A Pagar'}</td><td>${f.desc}</td><td>R$ ${f.value.toFixed(2)}</td><td>${f.date}</td><td></td>`;
+    });
+}
 
 // --- Gerenciamento de Produtos ---
 // As funções de CRUD de produtos permanecem as mesmas, mas os listeners são re-anexados na renderização da página
