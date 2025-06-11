@@ -1,0 +1,369 @@
+/* Importações de fontes se necessário, mas Inter está geralmente disponível */
+
+/* --- Estilo Base e Variáveis --- */
+body {
+    font-family: 'Inter', sans-serif;
+    background: linear-gradient(to bottom right, #f3f4f6, #e0e7ff); /* Gradiente de fundo sutil */
+    min-height: 100vh;
+}
+
+/* --- Cabeçalho Fixo --- */
+header {
+    background-color: white;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05); /* Sombra customizada */
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 50;
+    padding: 1rem 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.logo {
+    font-weight: 800; /* Extra bold */
+    font-size: 1.75rem; /* text-3xl */
+    color: #2563EB; /* primary-blue */
+    letter-spacing: -0.05em; /* Tracking tight */
+}
+.user-id-display {
+    font-size: 0.875rem; /* text-sm */
+    color: #6B7280; /* text-light */
+    background-color: #F9FAFB; /* Gray-50 */
+    padding: 0.5rem 1rem;
+    border-radius: 9999px; /* Totalmente arredondado */
+    box-shadow: inset 0 1px 3px rgba(0,0,0,0.05);
+}
+
+/* --- Contêiner Principal da Aplicação --- */
+#app-container {
+    flex: 1; /* Permite que o contêiner ocupe o espaço restante */
+}
+@media (min-width: 1024px) { /* Desktop (lg) */
+    #app-container {
+        padding-left: 256px; /* Offset para a sidebar fixa */
+    }
+}
+@media (max-width: 1023px) { /* Mobile/Tablet */
+    #app-container {
+        padding-left: 0;
+    }
+}
+
+
+/* --- Barra Lateral (Sidebar) --- */
+#sidebar {
+    width: 256px; /* Largura padrão */
+    background-color: white;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08); /* Sombra customizada */
+    border-top-right-radius: 24px;
+    border-bottom-right-radius: 24px;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+/* Mobile/Tablet: Sidebar oculta por padrão, sobrepondo o conteúdo */
+#sidebar.hidden-mobile {
+    transform: translateX(-100%);
+}
+#sidebar.visible-mobile {
+    transform: translateX(0);
+}
+
+/* Desktop: Sidebar sempre visível e fixa */
+@media (min-width: 1024px) {
+    #sidebar {
+        position: fixed;
+        top: 80px; /* Abaixo do cabeçalho */
+        bottom: 0;
+        overflow-y: auto;
+        transform: translateX(0) !important; /* Força visibilidade em desktop */
+    }
+}
+
+/* Overlay da sidebar para mobile */
+#sidebar-overlay {
+    transition: opacity 0.3s ease-in-out;
+}
+
+/* --- Botões de Navegação da Sidebar --- */
+.nav-btn {
+    @apply flex items-center w-full py-3 px-4 rounded-xl text-left font-medium text-text-light transition-all duration-300 ease-in-out;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.03);
+}
+.nav-btn:hover {
+    @apply bg-blue-50 text-primary-blue;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+}
+.nav-btn.active {
+    @apply bg-primary-blue text-white;
+    box-shadow: 0 5px 15px rgba(37, 99, 235, 0.25);
+    transform: translateY(-1px);
+}
+.nav-btn.active .icon {
+    fill: white;
+}
+
+/* --- Área de Conteúdo Principal --- */
+#main-content {
+    padding: 1rem; /* Padding base para mobile */
+}
+@media (min-width: 768px) { /* md breakpoint */
+    #main-content {
+        padding: 2rem; /* Mais padding para tablets e desktops */
+    }
+}
+@media (min-width: 1024px) { /* lg breakpoint */
+    #main-content {
+        padding: 2rem;
+    }
+}
+
+.card {
+    background-color: white;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08); /* Sombra customizada */
+    padding: 32px;
+    margin-bottom: 32px;
+    transition: all 0.3s ease-in-out;
+    border: 1px solid #F3F4F6;
+}
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15); /* Sombra customizada */
+}
+.section-title {
+    @apply text-4xl font-extrabold text-text-dark mb-8 flex items-center;
+}
+
+/* --- Estilo dos Botões --- */
+.btn-base {
+    @apply font-semibold py-3 px-6 rounded-xl transition-all duration-300 ease-in-out focus:outline-none focus:ring-4 focus:ring-offset-2;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+}
+.btn-primary {
+    @apply btn-base bg-primary-blue text-white hover:bg-primary-blue-dark focus:ring-primary-blue/50;
+}
+.btn-secondary {
+    @apply btn-base bg-secondary-gray text-text-light hover:bg-gray-300 focus:ring-secondary-gray/50;
+}
+.btn-accent {
+     @apply btn-base bg-accent-green text-white hover:bg-green-600 focus:ring-accent-green/50;
+}
+.btn-danger {
+    @apply btn-base bg-alert-red text-white hover:bg-red-600 focus:ring-alert-red/50;
+}
+
+/* --- Campos de Entrada --- */
+.input-field {
+    @apply mt-1 block w-full px-5 py-3 border border-gray-300 rounded-lg shadow-sm text-text-dark placeholder-text-light focus:outline-none focus:ring-primary-blue focus:border-primary-blue transition-all duration-200 ease-in-out;
+}
+textarea.input-field {
+    resize: vertical;
+    min-height: 100px;
+}
+
+/* --- Estilo da Tabela --- */
+.table-header th {
+    @apply px-6 py-4 text-left text-xs font-bold text-text-light uppercase tracking-wider bg-gray-50;
+    border-bottom: 2px solid #E5E7EB;
+}
+.table-row td {
+    @apply px-6 py-4 whitespace-nowrap text-sm text-text-dark border-b border-gray-100;
+}
+.table-row:nth-child(even) {
+    background-color: #F9FAFB;
+}
+.table-row:hover {
+    background-color: #F3F4F6;
+    transition: background-color 0.2s ease-in-out;
+}
+.status-low-stock {
+    @apply font-bold text-alert-red;
+}
+.status-good-stock {
+    @apply font-semibold text-accent-green;
+}
+
+/* --- Estilo dos Modais --- */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background-color: rgba(0,0,0,0.6);
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    transition: opacity 0.4s ease-in-out;
+}
+.modal.show {
+    opacity: 1;
+}
+.modal-content {
+    background-color: #fefefe;
+    padding: 40px;
+    border-radius: 20px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15); /* Sombra customizada */
+    width: 95%;
+    max-width: 600px;
+    transform: translateY(-80px) scale(0.95);
+    transition: transform 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+    border: 1px solid #E5E7EB;
+}
+.modal.show .modal-content {
+    transform: translateY(0) scale(1);
+}
+.close-button {
+    color: #9CA3AF;
+    float: right;
+    font-size: 36px;
+    font-weight: bold;
+    transition: color 0.2s ease-in-out;
+}
+.close-button:hover,
+.close-button:focus {
+    color: #4B5563;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+/* --- Estilo do Assistente de Chat --- */
+.chat-container {
+    height: 480px;
+    overflow-y: auto;
+    border: 1px solid #D1D5DB;
+    border-radius: 16px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    background-color: #F9FAFB;
+    box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.03);
+}
+.chat-message {
+    margin-bottom: 16px;
+    padding: 14px 20px;
+    border-radius: 24px;
+    max-width: 85%;
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    font-size: 0.95rem;
+    line-height: 1.5;
+    animation: fadeInMessage 0.3s ease-out;
+}
+@keyframes fadeInMessage {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.chat-message.user {
+    background: linear-gradient(to right, #60A5FA, #3B82F6);
+    color: white;
+    align-self: flex-end;
+    text-align: right;
+    border-bottom-right-radius: 6px;
+    box-shadow: 0 4px 10px rgba(59, 130, 246, 0.2);
+}
+.chat-message.ai {
+    background-color: #E0E7FF;
+    color: #1F2937;
+    align-self: flex-start;
+    text-align: left;
+    border-bottom-left-radius: 6px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+}
+.chat-avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background-color: #CBD5E1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    color: white;
+    flex-shrink: 0;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+.chat-message.user .chat-avatar {
+    order: 2;
+    background-color: #3B82F6;
+}
+.chat-message.ai .chat-avatar {
+    background-color: #6366F1;
+}
+.chat-bubble {
+    flex-grow: 1;
+}
+.loading-indicator {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+    color: #4a5568;
+    font-size: 1em;
+    font-style: italic;
+}
+.loading-spinner {
+    border: 4px solid rgba(0, 0, 0, 0.1);
+    border-top: 4px solid #3B82F6;
+    border-radius: 50%;
+    width: 28px;
+    height: 28px;
+    animation: spin 1s linear infinite;
+    margin-right: 12px;
+}
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* --- Estilo dos Ícones SVG --- */
+.icon {
+    width: 22px;
+    height: 22px;
+    vertical-align: middle;
+    margin-right: 12px;
+    fill: currentColor;
+}
+
+/* Estilos específicos do Dashboard */
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 24px;
+}
+.dashboard-metric-card {
+    background-color: white;
+    border-radius: 16px;
+    padding: 24px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05); /* Sombra customizada */
+    border: 1px solid #E5E7EB;
+    transition: all 0.3s ease-in-out;
+}
+.dashboard-metric-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08); /* Sombra customizada */
+}
+.dashboard-metric-card h4 {
+    font-size: 1.125rem; /* text-lg */
+    font-weight: 600; /* semibold */
+    color: #1F2937; /* text-dark */
+    margin-bottom: 8px;
+}
+.dashboard-metric-card p {
+    font-size: 2.25rem; /* text-4xl */
+    font-weight: 700; /* bold */
+    color: #2563EB; /* primary-blue */
+}
+.dashboard-metric-card.green p { color: #10B981; } /* accent-green */
+.dashboard-metric-card.red p { color: #EF4444; } /* alert-red */

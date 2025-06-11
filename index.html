@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inventário Inteligente: Gestão e IA</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        // Configuração do Tailwind CSS (extensões de tema)
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        'primary-blue': '#2563EB', // Blue-600
+                        'primary-blue-dark': '#1D4ED8', // Blue-700
+                        'secondary-gray': '#E5E7EB', // Gray-200
+                        'text-dark': '#1F2937', // Gray-800
+                        'text-light': '#6B7280', // Gray-500
+                        'accent-green': '#10B981', // Green-500
+                        'alert-red': '#EF4444', // Red-500
+                        'warning-orange': '#F59E0B', // Orange-500
+                        'bg-light': '#F8F9FA', // Light background for content
+                    },
+                    boxShadow: {
+                        'custom-light': '0 4px 15px rgba(0, 0, 0, 0.05)',
+                        'custom-medium': '0 10px 30px rgba(0, 0, 0, 0.08)',
+                        'custom-heavy': '0 20px 60px rgba(0, 0, 0, 0.15)',
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Link para o arquivo CSS externo -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="bg-gradient-to-br from-blue-50 to-indigo-100 min-h-screen flex flex-col">
+
+    <!-- Cabeçalho Fixo -->
+    <header class="fixed top-0 left-0 right-0 z-50 bg-white shadow-custom-light p-4 flex justify-between items-center lg:h-20">
+        <div class="flex items-center space-x-3">
+            <!-- Ícone do logotipo -->
+            <svg class="w-8 h-8 text-primary-blue" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path d="M5 3a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2V5a2 2 0 00-2-2H5zM5 11a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2v-2a2 2 0 00-2-2H5zM13 7a2 2 0 00-2-2h2a2 2 0 002 2V5a2 2 0 00-2-2h-2zM13 15a2 2 0 00-2-2h2a2 2 0 002 2v-2a2 2 0 00-2-2h-2zM19 3a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2V5a2 2 0 00-2-2h-2zM19 11a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2v-2a2 2 0 00-2-2h-2z"></path>
+            </svg>
+            <div class="logo">Inventário Inteligente</div>
+        </div>
+        <!-- Exibição do ID do usuário -->
+        <p id="user-id-display" class="user-id-display hidden lg:block"></p>
+        <!-- Botão para mobile (abre/fecha sidebar) -->
+        <button id="mobile-menu-button" class="lg:hidden p-2 rounded-md text-text-light hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-blue">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+        </button>
+    </header>
+
+    <!-- Contêiner Principal da Aplicação -->
+    <div id="app-container" class="flex flex-1 pt-16 lg:pt-20">
+        <!-- Barra Lateral de Navegação (Sidebar) -->
+        <nav id="sidebar" class="fixed top-16 lg:top-20 bottom-0 left-0 w-64 bg-white shadow-custom-medium p-6 flex flex-col gap-3 z-40 transform -translate-x-full lg:translate-x-0 transition-transform duration-300 ease-in-out lg:rounded-r-2xl">
+            <button id="nav-dashboard" class="nav-btn active">
+                <svg class="icon" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M10 2a6 6 0 00-6 6v3.586l-.707.707A1 1 0 012.586 13H14a1 1 0 01.707.293l.707-.707V8a6 6 0 00-6-6zM10 18a3 3 0 110-6 3 3 0 010 6z"></path></svg>
+                Dashboard
+            </button>
+            <button id="nav-products" class="nav-btn">
+                <svg class="icon" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M5 3a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2V5a2 2 0 00-2-2H5zM5 11a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2v-2a2 2 0 00-2-2H5zM13 7a2 2 0 00-2-2h2a2 2 0 002 2V5a2 2 0 00-2-2h-2zM13 15a2 2 0 00-2-2h2a2 2 0 002 2v-2a2 2 0 00-2-2h-2z"></path></svg>
+                Produtos
+            </button>
+            <button id="nav-employees" class="nav-btn">
+                <svg class="icon" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"></path></svg>
+                Funcionários
+            </button>
+            <button id="nav-ai" class="nav-btn">
+                <svg class="icon" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M18.653 10.165A2.327 2.327 0 0017.332 9.2c-.65-.12-1.29-.46-1.84-1.01l-.81-1.01a1 1 0 00-1.54-.15l-.81-.81a1 1 0 00-1.15-1.54l-1.01-.81c-.55-.55-1.2-.89-1.84-1.01A2.327 2.327 0 0010 1.347v.01a1 1 0 00-1.01-.81L7.17 1a1 1 0 00-1.54 1.15l-.81 1.01c-.55.55-.89 1.2-1.01 1.84A2.327 2.327 0 001.347 10h.01a1 1 0 00-1.54 1.15l.81 1.01c.55.55.89 1.2 1.01 1.84A2.327 2.327 0 0010 18.653v-.01a1 1 0 001.01 1.54l1.01-.81c.55-.55.89-1.2 1.01-1.84A2.327 2.327 0 0018.653 10zm-8.48-1.564a1 1 0 00-.707-.707c-.4-.4-1.02-.4-1.42 0s-.4 1.02 0 1.42a1 1 0 00.707.707c-.4.4-1.02.4-1.42 0s-.4-1.02 0-1.42z" clip-rule="evenodd"></path></svg>
+                Assistente IA
+            </button>
+        </nav>
+        <div id="sidebar-overlay" class="fixed inset-0 bg-black bg-opacity-50 z-30 hidden lg:hidden"></div>
+
+
+        <!-- Área de Conteúdo Principal (carregada dinamicamente pelo JS) -->
+        <main id="main-content" class="flex-1 lg:ml-64 p-4 lg:p-8">
+            <!-- Conteúdo será injetado aqui pelo JavaScript -->
+        </main>
+    </div>
+
+    <!-- Modais (Mantidos no index.html para fácil acesso global) -->
+
+    <!-- Modal de Produto -->
+    <div id="product-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-button" onclick="closeModal('product-modal')">&times;</span>
+            <h3 id="product-modal-title" class="text-3xl font-bold text-text-dark mb-6">Adicionar Produto</h3>
+            <form id="product-form">
+                <input type="hidden" id="product-id">
+                <div class="mb-4">
+                    <label for="product-name" class="block text-sm font-medium text-text-light mb-1">Nome do Produto</label>
+                    <input type="text" id="product-name" class="input-field" required>
+                </div>
+                <div class="mb-4">
+                    <label for="product-quantity" class="block text-sm font-medium text-text-light mb-1">Quantidade</label>
+                    <input type="number" id="product-quantity" class="input-field" required min="0">
+                </div>
+                <div class="mb-4">
+                    <label for="product-price" class="block text-sm font-medium text-text-light mb-1">Preço (R$)</label>
+                    <input type="number" id="product-price" class="input-field" step="0.01" required min="0">
+                </div>
+                <div class="mb-6">
+                    <label for="product-description" class="block text-sm font-medium text-text-light mb-1">Descrição</label>
+                    <textarea id="product-description" class="input-field h-28 resize-y"></textarea>
+                </div>
+                <div class="flex justify-end space-x-3">
+                    <button type="button" class="btn-secondary" onclick="closeModal('product-modal')">Cancelar</button>
+                    <button type="submit" class="btn-primary">Salvar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal de Funcionário -->
+    <div id="employee-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-button" onclick="closeModal('employee-modal')">&times;</span>
+            <h3 id="employee-modal-title" class="text-3xl font-bold text-text-dark mb-6">Adicionar Funcionário</h3>
+            <form id="employee-form">
+                <input type="hidden" id="employee-id">
+                <div class="mb-4">
+                    <label for="employee-name" class="block text-sm font-medium text-text-light mb-1">Nome do Funcionário</label>
+                    <input type="text" id="employee-name" class="input-field" required>
+                </div>
+                <div class="mb-4">
+                    <label for="employee-role" class="block text-sm font-medium text-text-light mb-1">Cargo</label>
+                    <input type="text" id="employee-role" class="input-field" required>
+                </div>
+                <div class="mb-6">
+                    <label for="employee-contact" class="block text-sm font-medium text-text-light mb-1">Contato</label>
+                    <input type="text" id="employee-contact" class="input-field">
+                </div>
+                <div class="flex justify-end space-x-3">
+                    <button type="button" class="btn-secondary" onclick="closeModal('employee-modal')">Cancelar</button>
+                    <button type="submit" class="btn-primary">Salvar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal de Mensagem -->
+    <div id="message-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-button" onclick="closeModal('message-modal')">&times;</span>
+            <h3 id="message-modal-title" class="text-3xl font-bold text-text-dark mb-4">Mensagem</h3>
+            <p id="message-modal-content" class="mb-8 text-text-dark text-lg leading-relaxed"></p>
+            <div class="flex justify-end">
+                <button type="button" class="btn-primary" onclick="closeModal('message-modal')">Ok</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Link para o arquivo JavaScript externo (type="module" para imports do Firebase) -->
+    <script type="module" src="script.js"></script>
+</body>
+</html>
