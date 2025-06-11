@@ -56,6 +56,17 @@
         </button>
     </header>
 
+    <!-- Sidebar de Navegação -->
+    <nav id="sidebar" class="hidden-mobile lg:block fixed top-20 left-0 h-full w-64 bg-white shadow-custom-medium z-40 p-6 border-r border-gray-100 transition-transform">
+        <ul class="space-y-2">
+            <li><button id="nav-dashboard" class="nav-btn w-full flex items-center space-x-2"><span class="icon"><svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8v-10h-8v10zm0-18v6h8V3h-8z"/></svg></span><span>Dashboard</span></button></li>
+            <li><button id="nav-products" class="nav-btn w-full flex items-center space-x-2"><span class="icon"><svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20 13V7a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v6M9 21h6"/></svg></span><span>Estoque</span></button></li>
+            <li><button id="nav-employees" class="nav-btn w-full flex items-center space-x-2"><span class="icon"><svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H7a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></span><span>Equipe</span></button></li>
+            <li><button id="nav-ai" class="nav-btn w-full flex items-center space-x-2"><span class="icon"><svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg></span><span>Assistente IA</span></button></li>
+        </ul>
+    </nav>
+    <div id="sidebar-overlay" class="hidden fixed inset-0 bg-black bg-opacity-30 z-30 lg:hidden"></div>
+
     <!-- Hero Section -->
     <section class="pt-28 pb-16 bg-gradient-to-br from-primary-blue to-primary-blue-dark text-white text-center shadow-custom-medium">
         <div class="max-w-3xl mx-auto px-4">
